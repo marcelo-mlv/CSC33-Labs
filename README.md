@@ -1,4 +1,4 @@
-# ELE32: Laboratórios
+# CSC33: Laboratórios
 
 ## Introdução
 
