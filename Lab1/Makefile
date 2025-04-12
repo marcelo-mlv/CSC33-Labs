@@ -3,8 +3,7 @@ CFLAGS = -Iinclude -Wall -Wextra
 
 CFLAGS += -Isrc
 
-SRC = ./src/main.c \
-	  ./include/cmd.h
+SRC = ./src/main.c
 OBJ = $(SRC:.c=.o)
 TARGET = ./bin/main
 
