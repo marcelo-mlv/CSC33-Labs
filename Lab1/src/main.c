@@ -1,15 +1,12 @@
 #include <stdio.h>
-#include <cmd.h>
+
+#include <shell.h>
 
 int main() {
 
     printf("Welcome to the miniature-shell.\n");
-    
-    printf("cmd> ");
-    
-    char *cmd = get_cmd();
-    
-    parse_cmd(cmd);
+
+    main_loop();
 
     return 0;
 }
