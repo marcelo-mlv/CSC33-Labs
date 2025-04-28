@@ -2,12 +2,16 @@
 
 #include <cmd.h>
 
+/**
+ * @brief Shell Main Loop.
+ * 
+ * 
+ */
 void main_loop() {
 
     printf("cmd> ");
     
-    char *cmd = get_cmd();
-    
-    parse_cmd(cmd);
-
+    char *cmd    = get_cmd();
+    char ** args = separate_args(cmd);
+    parse_cmd(args);
 }
