@@ -132,7 +132,10 @@ int launch(char **args)
             close(fd_out);
         }
 
-        // Ensure the first argument points to the program name
+        // cut args so launch does not read redirection operators and their args
+        args[in_redirect] = NULL;
+        args[out_redirect] = NULL;
+
         if (args[0] != NULL) {
             //print_args(args);
             if (execv(args[0], args) == -1) {
