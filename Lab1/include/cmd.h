@@ -4,6 +4,8 @@
 #include <wait.h>
 #include <fcntl.h>
 
+#include <debug.h>
+
 #define ARG_BUFSIZE 64
 
 // Forward declaration of the launch function
@@ -138,8 +140,14 @@ int launch(char **args)
             close(fd_out);
         }
 
+        // Ensure the first argument points to the program name
+        if (args[0] != NULL) {
+            //print_args(args);
         if (execv(args[0], args) == -1) {
             perror("launch");
+            }
+        } else {
+            fprintf(stderr, "Error: No program specified to execute.\n");
         }
         exit(1);
     } else if (pid < 0) {
