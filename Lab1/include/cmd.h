@@ -72,6 +72,78 @@ char** separate_args(char *cmd) {
  * @param args Command Arguments.
  * @return void
  */
+int launch(char **args)
+{
+    pid_t pid;
+    int status;
+    int in_redirect = -1, out_redirect = -1;
+    char *input_file = NULL, *output_file = NULL;
+
+    // Check for redirection operators
+    for (int i = 0; args[i] != NULL; i++) {
+        if (strcmp(args[i], "<") == 0) {
+            input_file = args[i + 1];
+            in_redirect = i;
+        } else if (strcmp(args[i], ">") == 0) {
+            output_file = args[i + 1];
+            out_redirect = i;
+        }
+    }
+
+    // Remove redirection operators and files from args
+    if (in_redirect != -1) {
+        args[in_redirect] = NULL;
+    }
+    if (out_redirect != -1) {
+        args[out_redirect] = NULL;
+    }
+
+    pid = fork();
+    if (pid == 0) {
+        // Child process
+        if (input_file) {
+            int fd_in = open(input_file, O_RDONLY);
+            if (fd_in == -1) {
+                perror("Input redirection failed");
+                exit(1);
+            }
+            dup2(fd_in, STDIN_FILENO);
+            close(fd_in);
+        }
+        if (output_file) {
+            int fd_out = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd_out == -1) {
+                perror("Output redirection failed");
+                exit(1);
+            }
+            dup2(fd_out, STDOUT_FILENO);
+            close(fd_out);
+        }
+
+        if (execv(args[0], args) == -1) {
+            perror("launch");
+        }
+        exit(1);
+    } else if (pid < 0) {
+        // Fork failed
+        perror("launch");
+    } else {
+        // Parent process
+        do {
+            waitpid(pid, &status, WUNTRACED);
+            printf("cmd> ");
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+
+    return 1;
+}
+
+/**
+ * @brief Command Parser.
+ * 
+ * @param args Command Arguments.
+ * @return void
+ */
 int cmd_execute(char **args) {
     if (args[0] == NULL) {
         return 1;
