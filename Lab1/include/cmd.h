@@ -2,19 +2,24 @@
 #include <string.h>
 
 char* get_cmd() {
-    char *cmd = (char *)malloc(100*sizeof(char));
-    if (cmd == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return NULL;
+    char *cmd = NULL;
+    __ssize_t bufsize = 0;
+
+    if(getline(&cmd, &bufsize, stdin) == -1) {
+        if(feof(stdin)) {
+            exit(0);
+        } else {
+            perror("getcmd");
+            exit(1);
+        }
     }
-    scanf("%s", cmd);
 
     return cmd;
 }
 
 char** separate_args(char *cmd) {
     char **args = (char **)malloc(10*sizeof(char*));
-    if (args == NULL) {
+    if(args == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
         free(cmd);
         return NULL;
@@ -22,7 +27,7 @@ char** separate_args(char *cmd) {
 
     int arg_index = 0;
     char *token = strtok(cmd, " ");
-    while (token != NULL && arg_index < 10) {
+    while(token != NULL && arg_index < 10) {
         args[arg_index++] = token;
         token = strtok(NULL, " ");
     }
@@ -38,6 +43,5 @@ void parse_cmd(char **args) {
     }
     else printf("Command not found: \"%s\"\n", args[0]);
 
-    free(args);
     return;
 }
