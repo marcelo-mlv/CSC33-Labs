@@ -67,10 +67,28 @@ char** separate_args(char *cmd) {
 }
 
 /**
- * @brief Command Parser.
+ * @brief Provides functionality to execute commands with optional input and output redirection.
+ *
+ * This header defines the `launch` function, which is responsible for parsing command-line arguments,
+ * handling input/output redirection, and executing the specified command in a child process.
+ * It supports redirection operators `<` for input and `>` for output.
  * 
- * @param args Command Arguments.
- * @return void
+ * @param args An array of strings representing the command and its arguments.
+ * @return int Returns 1 on success, or -1 on failure.
+ *
+ * Usage:
+ * - The function takes an array of strings (`args`) representing the command and its arguments.
+ * - Redirection operators and their corresponding file paths should be included in the `args` array.
+ * - The function handles the redirection internally and executes the command.
+ *
+ * Example:
+ * ```c
+ * char *args[] = {"/bin/ls", "-l", ">", "output.txt", NULL};
+ * launch(args);
+ * ```
+ *
+ * @note The function uses `fork`, `execv`, and `dup2` for process creation and redirection.
+ *       It also waits for the child process to complete before returning.
  */
 int launch(char **args)
 {
@@ -139,13 +157,18 @@ int launch(char **args)
 }
 
 /**
- * @brief Command Parser.
+ * @brief Command Execute.
  * 
  * @param args Command Arguments.
- * @return void
+ * @return int 
  */
 int cmd_execute(char **args) {
     if (args[0] == NULL) {
+        return 1;
+    }
+
+    if (strcmp(args[0], "prog") == 0) {
+        printf("cmd> ");
         return 1;
     }
 
