@@ -1,4 +1,3 @@
-#include <malloc.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,7 +26,7 @@ char* get_cmd() {
             exit(1);
         }
     }
-
+    
     return cmd;
 }
 
@@ -45,7 +44,7 @@ char** separate_args(char *cmd) {
         fprintf(stderr, "Memory allocation failed\n");
         exit(1);
     }
-
+    
     int arg_index = 0;
     char *arg = strtok(cmd, " \t\r\n\a");
     while(arg != NULL) {
@@ -64,16 +63,19 @@ char** separate_args(char *cmd) {
     }
     
     args[arg_index] = NULL;
-    
     return args;
 }
 
-void parse_cmd(char **args) {
-
-    if(strcmp(args[0], "exit") == 0) {
-        printf("Exiting shell...\n");
+/**
+ * @brief Command Parser.
+ * 
+ * @param args Command Arguments.
+ * @return void
+ */
+int cmd_execute(char **args) {
+    if (args[0] == NULL) {
+        return 1;
     }
-    else printf("Command not found: \"%s\"\n", args[0]);
 
-    return;
+    return launch(args);
 }
