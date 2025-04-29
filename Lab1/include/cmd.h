@@ -17,7 +17,7 @@ int launch(char **args);
  */
 char* get_cmd() {
     char *cmd = NULL;
-    __ssize_t bufsize = 0;
+    size_t bufsize = 0;
 
     if(getline(&cmd, &bufsize, stdin) == -1) {
         if(feof(stdin)) {
@@ -38,19 +38,31 @@ char* get_cmd() {
  * @return char** Array of Arguments.
  */
 char** separate_args(char *cmd) {
-    char **args = (char **)malloc(10*sizeof(char*));
+    int bufsize = ARG_BUFSIZE;
+    char **args = (char **)malloc(ARG_BUFSIZE * sizeof(char*));
+
     if(args == NULL) {
         fprintf(stderr, "Memory allocation failed\n");
-        free(cmd);
-        return NULL;
+        exit(1);
     }
 
     int arg_index = 0;
-    char *token = strtok(cmd, " ");
-    while(token != NULL && arg_index < 10) {
-        args[arg_index++] = token;
-        token = strtok(NULL, " ");
+    char *arg = strtok(cmd, " \t\r\n\a");
+    while(arg != NULL) {
+        args[arg_index++] = arg;
+        arg_index++;
+        
+        if(arg_index >= bufsize) {
+            bufsize += ARG_BUFSIZE;
+            args = (char **)realloc(args, bufsize * sizeof(char*));
+            if(args == NULL) {
+                fprintf(stderr, "Memory allocation failed\n");
+                exit(1);
+            }
+        }
+        arg = strtok(NULL, " \t\r\n\a");
     }
+    
     args[arg_index] = NULL;
     
     return args;
