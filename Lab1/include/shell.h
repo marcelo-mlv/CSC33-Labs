@@ -10,11 +10,17 @@
 void main_loop() {
 
     printf("cmd> ");
+
+    int   status;
+    char    *cmd;
+    char ** args;
     
-    char *cmd    = get_cmd();
-    char ** args = separate_args(cmd);
-    parse_cmd(args);
-    
-    free(args);
-    free(cmd);
+    do {
+        cmd    = get_cmd();
+        args   = separate_args(cmd);
+        status = cmd_execute(args);
+
+        free(args);
+        free(cmd);
+    } while(status);
 }
