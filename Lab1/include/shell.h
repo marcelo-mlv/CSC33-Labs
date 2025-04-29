@@ -5,7 +5,7 @@
 /**
  * @brief Shell Main Loop.
  * 
- * 
+ * Called only by main().
  */
 void main_loop() {
 

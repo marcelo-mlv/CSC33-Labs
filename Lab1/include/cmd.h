@@ -110,14 +110,6 @@ int launch(char **args)
         }
     }
 
-    // Remove redirection operators and files from args
-    if (in_redirect != -1) {
-        args[in_redirect] = NULL;
-    }
-    if (out_redirect != -1) {
-        args[out_redirect] = NULL;
-    }
-
     pid = fork();
     if (pid == 0) {
         // Child process
