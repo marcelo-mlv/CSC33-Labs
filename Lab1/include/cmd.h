@@ -50,7 +50,7 @@ char** separate_args(char *cmd) {
     int arg_index = 0;
     char *arg = strtok(cmd, " \t\r\n\a");
     while(arg != NULL) {
-        args[arg_index++] = arg;
+        args[arg_index] = arg;
         arg_index++;
         
         if(arg_index >= bufsize) {
@@ -143,8 +143,8 @@ int launch(char **args)
         // Ensure the first argument points to the program name
         if (args[0] != NULL) {
             //print_args(args);
-        if (execv(args[0], args) == -1) {
-            perror("launch");
+            if (execv(args[0], args) == -1) {
+                perror("launch");
             }
         } else {
             fprintf(stderr, "Error: No program specified to execute.\n");
