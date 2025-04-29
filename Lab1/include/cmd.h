@@ -1,6 +1,20 @@
 #include <malloc.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <wait.h>
+#include <fcntl.h>
 
+#define ARG_BUFSIZE 64
+
+// Forward declaration of the launch function
+int launch(char **args);
+
+/**
+ * @brief User Input Read As Command.
+ * 
+ * 
+ */
 char* get_cmd() {
     char *cmd = NULL;
     __ssize_t bufsize = 0;
@@ -17,6 +31,12 @@ char* get_cmd() {
     return cmd;
 }
 
+/**
+ * @brief Command String Split Into Arguments.
+ * 
+ * @param cmd Command String.
+ * @return char** Array of Arguments.
+ */
 char** separate_args(char *cmd) {
     char **args = (char **)malloc(10*sizeof(char*));
     if(args == NULL) {
