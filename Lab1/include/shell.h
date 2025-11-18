@@ -12,8 +12,8 @@ void main_loop() {
     printf("cmd> ");
 
     int   status;
-    char    *cmd;
-    char ** args;
+    char*    cmd;
+    char**  args;
     
     do {
         cmd    = get_cmd();
