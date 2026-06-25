@@ -1,20 +1,17 @@
-# CSC33: Laboratórios
+# Mini-Shell Laboratory
 
-## Introdução
+This repository contains files for the laboratory practice of the CSC-33 course.
 
-Repositório feito para armazenamento remoto dos arquivos referentes às práticas laboratório da disciplina CSC-33, Sistemas Operacionais, lecionada pelo prof. Lourenço Alves, do Instituto Tecnológico de Aeronáutica (ITA).
+## Available Make Commands
 
-## Conteúdo do Repositório
+Here are the possible commands that can be executed with Make from the [Makefile](./Makefile):
 
-Será publicado nesse repositório:
+- `make build`: Compiles the project.
+- `make clean`: Removes files generated during compilation.
+- `make run`  : Executes the program after compilation.
+- `make test` : Runs the project tests to verify its functionality.
 
-1. ***Todos*** os arquivos criados para a prática de laboratório;
-
-2. ***READMEs*** explicando os arquivos feitos em cada prática;
-
-3. ***Arquivos*** disponibilizados pelo professor referente à prática;
-
-## Informações Úteis
+## Useful Info
 
 📍 ***ITA***: Instituto Tecnológico de Aeronáutica
 
